@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass - Sci-Fi Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glass: rgba(255, 255, 255, 0.08);
+            --secondary-glass: rgba(255, 255, 255, 0.05);
+            --accent-glass: rgba(0, 255, 255, 0.1);
+            --neon-blue: #00f5ff;
+            --neon-purple: #8a2be2;
+            --neon-green: #39ff14;
+            --text-primary: rgba(255, 255, 255, 0.9);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            background: 
+                radial-gradient(ellipse at top left, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at top right, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(57, 255, 20, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-panel {
+            background: var(--primary-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 40px rgba(0, 245, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent
+            );
+            transition: left 0.5s;
+        }
+
+        .glass-panel:hover::before {
+            left: 100%;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 60px rgba(0, 245, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            margin-bottom: 1rem;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .nav-panel {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-item {
+            background: var(--secondary-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.2) 0%, transparent 70%);
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .nav-item:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-item:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .sidebar {
+            padding: 2rem;
+        }
+
+        .feature-card {
+            background: var(--accent-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            animation: scanline 2s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .data-panel {
+            background: var(--secondary-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .data-value {
+            color: var(--neon-green);
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+            border-radius: 3px;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes progressPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(0, 245, 255, 0.5); }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: float 10s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hologram-text {
+            color: var(--neon-blue);
+            text-shadow: 
+                0 0 5px rgba(0, 245, 255, 0.8),
+                0 0 10px rgba(0, 245, 255, 0.6),
+                0 0 15px rgba(0, 245, 255, 0.4);
+            animation: hologramFlicker 3s ease-in-out infinite;
+        }
+
+        @keyframes hologramFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            75% { opacity: 0.95; }
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-green);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+        }
+
+        .terminal-header {
+            color: var(--neon-green);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .terminal-line {
+            color: var(--neon-green);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            animation: typewriter 0.5s steps(40, end) forwards;
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .cyber-button {
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 1rem 2rem;
+            border-radius: 0;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+        }
+
+        .cyber-button:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="floating-elements">
+        <div class="floating-particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="floating-particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="floating-particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="floating-particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="floating-particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="floating-particle" style="left: 70%; animation-delay: 6s;"></div>
+        <div class="floating-particle" style="left: 80%; animation-delay: 7s;"></div>
+        <div class="floating-particle" style="left: 90%; animation-delay: 8s;"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">LIQUID GLASS</h1>
+            <p class="subtitle">Advanced Sci-Fi Interface System</p>
+        </div>
+
+        <!-- Navigation Panel -->
+        <div class="glass-panel nav-panel">
+            <div class="nav-grid">
+                <div class="nav-item">
+                    <div class="nav-icon">🚀</div>
+                    <h3>Systems</h3>
+                    <p>Core Operations</p>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🌐</div>
+                    <h3>Network</h3>
+                    <p>Neural Links</p>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⚡</div>
+                    <h3>Energy</h3>
+                    <p>Quantum Grid</p>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🎯</div>
+                    <h3>Defense</h3>
+                    <p>Security Matrix</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Main Content -->
+            <div class="glass-panel main-content">
+                <h2 class="hologram-text">Sistema di Interfaccia Avanzata</h2>
+                <p>Benvenuto nel sistema di controllo <strong>Liquid Glass</strong>, un'interfaccia futuristica che combina la trasparenza del vetro con effetti di glassmorphism moderni.</p>
+                
+                <div class="feature-card">
+                    <h3>🔮 Tecnologia Quantica</h3>
+                    <p>Processori neurali integrati per calcoli in tempo reale con architettura quantum-enhanced.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%;"></div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🌊 Interfaccia Fluida</h3>
+                    <p>Design responsivo che si adatta dinamicamente all'ambiente circostante con effetti di rifrazione realistica.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%;"></div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔒 Sicurezza Biometrica</h3>
+                    <p>Autenticazione multi-livello con scansione retinica e analisi del pattern neurale.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 76%;"></div>
+                    </div>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">SYSTEM TERMINAL v3.7.42</div>
+                    <div class="terminal-line">> Inizializzazione sistema completata...</div>
+                    <div class="terminal-line">> Connessione rete quantica: ATTIVA</div>
+                    <div class="terminal-line">> Protocolli di sicurezza: OPERATIVI</div>
+                    <div class="terminal-line">> Stato sistema: NOMINALE</div>
+                </div>
+
+                <button class="cyber-button">ACCEDI AL SISTEMA</button>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="glass-panel sidebar">
+                <h3 class="hologram-text">Stato Sistema</h3>
+                
+                <div class="data-panel">
+                    <div class="data-row">
+                        <span class="data-label">CPU Neural</span>
+                        <span class="data-value">94.2%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Memoria Quantica</span>
+                        <span class="data-value">67.8%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Rete Neurale</span>
+                        <span class="data-value">ATTIVA</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Temperatura Core</span>
+                        <span class="data-value">23.7°C</span>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h4 style="margin-bottom: 1rem; color: var(--neon-purple);">Connessioni Attive</h4>
+                    <div class="data-row">
+                        <span class="data-label">Stazione Alpha</span>
+                        <span class="data-value">●</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Satellite Beta</span>
+                        <span class="data-value">●</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Modulo Gamma</span>
+                        <span class="data-value">○</span>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h4 style="margin-bottom: 1rem; color: var(--neon-green);">Analisi Biometrica</h4>
+                    <div class="data-row">
+                        <span class="data-label">Frequenza Cardiaca</span>
+                        <span class="data-value">72 BPM</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Stress Level</span>
+                        <span class="data-value">BASSO</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Autorizzazione</span>
+                        <span class="data-value">LIVELLO 9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate progress bars on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 2s ease-out';
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // Add interactive hover effects to nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotateY(5deg)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotateY(0deg)';
+            });
+        });
+
+        // Terminal typing effect
+        const terminalLines = document.querySelectorAll('.terminal-line');
+        terminalLines.forEach((line, index) => {
+            line.style.animationDelay = `${index * 0.5}s`;
+        });
+
+        // Cyber button interaction
+        document.querySelector('.cyber-button').addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.offsetHeight; // Trigger reflow
+            this.style.animation = 'buttonPulse 0.3s ease';
+        });
+    </script>
+</body>
+</html>
