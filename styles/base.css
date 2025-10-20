@@ -1,0 +1,269 @@
+/* ======== BASE STYLES - LIQUID GLASS 2025 ======== */
+
+/* CSS Reset moderno */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "kern";
+  font-feature-settings: "kern";
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* ======== DESIGN TOKENS ======== */
+:root {
+  /* Palette neutra ultra-minimale */
+  --bg: #0b0f14;
+  --fg: rgba(255, 255, 255, 0.90);
+  --fg-dim: rgba(255, 255, 255, 0.62);
+  --fg-dimmer: rgba(255, 255, 255, 0.38);
+  
+  /* Accenti calibrati */
+  --accent: #7fe9ff;
+  --accent-dim: rgba(127, 233, 255, 0.65);
+  --accent-ink: #9ea7ff;
+  
+  /* Vetro e materiali */
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-hover: rgba(255, 255, 255, 0.08);
+  
+  /* Sistema spaziale */
+  --radius: 18px;
+  --radius-sm: 12px;
+  --radius-lg: 24px;
+  
+  --blur-min: 14px;
+  --blur-max: 22px;
+  --sat-min: 150%;
+  --sat-max: 185%;
+  
+  --shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 22px 70px rgba(0, 0, 0, 0.55);
+  
+  /* Spaziature armoniche */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  
+  /* Tipografia */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Transizioni fluide */
+  --ease-slow: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-medium: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-fast: cubic-bezier(0.4, 0.0, 1, 1);
+}
+
+/* ======== TIPOGRAFIA MODERNA ======== */
+html, body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+               "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", 
+               "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--fg);
+  background: 
+    radial-gradient(1200px 800px at 70% -10%, rgba(127, 233, 255, 0.06), transparent 60%),
+    radial-gradient(900px 600px at -10% 90%, rgba(158, 167, 255, 0.05), transparent 60%),
+    var(--bg);
+}
+
+/* Gerarchia tipografica */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+h1 { 
+  font-size: var(--font-size-4xl); 
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+h2 { 
+  font-size: var(--font-size-3xl); 
+}
+
+h3 { 
+  font-size: var(--font-size-2xl); 
+}
+
+h4 { 
+  font-size: var(--font-size-xl); 
+}
+
+h5 { 
+  font-size: var(--font-size-lg); 
+}
+
+h6 { 
+  font-size: var(--font-size-base); 
+}
+
+p {
+  line-height: var(--line-height-relaxed);
+  color: var(--fg-dim);
+}
+
+small, .text-small {
+  font-size: var(--font-size-sm);
+  color: var(--fg-dimmer);
+}
+
+.text-muted {
+  color: var(--fg-dimmer);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-medium);
+}
+
+a:hover {
+  color: var(--accent-dim);
+  text-decoration: underline;
+}
+
+/* ======== LAYOUT UTILITIES ======== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+
+.p-xs { padding: var(--space-xs); }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+
+.m-xs { margin: var(--space-xs); }
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+.m-lg { margin: var(--space-lg); }
+.m-xl { margin: var(--space-xl); }
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
+  h3 { font-size: var(--font-size-xl); }
+}
+
+/* ======== ACCESSIBILITY ======== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Selection */
+::selection {
+  background: rgba(127, 233, 255, 0.25);
+  color: var(--fg);
+}
